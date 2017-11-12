@@ -28,6 +28,20 @@ function get($var_key){
 	return isset($_GET[$var_key])? $_GET[$var_key] : '';
 }
 
+function getUserByEmail($email, $database){
+	$params = array(
+		'email' => $email
+		);
+	return query('sql/UserInfoFromEmail.sql',$database, $params);
+}
+
+function getUserBySessionID($database){
+	$params = array(
+		'userid' => $_SESSION['userid']
+		);
+	return query('sql/getUserByID.sql',$database,$params)[0];
+}
+
 
 
 ?>

@@ -68,3 +68,24 @@ body{
 	border: 1px solid black;
 	height: auto;
 }
+
+#left, #right{
+	width: 50%;
+}
+
+#left{
+	float:left;
+}
+
+#right{
+	float:right;
+}
+
+h1{
+	margin-bottom: 10px;
+}
+
+input{
+	font-size: 14pt;
+	padding: 2pt;
+}

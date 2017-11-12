@@ -9,7 +9,7 @@ include('config.php');
 <head>
 	<meta charset="utf-8">
 	
-  	<title>Home</title>
+  	<title>My Account</title>
 
 	<link rel="stylesheet" href="css/style.css">
 
@@ -28,7 +28,6 @@ include('config.php');
         </div>
         <div id="content">
 			<img src="images/32.png"/>
-			<p>Hello, <?php echo $user['first'];?>!</p>
         </div>
 </body>
 </html>
