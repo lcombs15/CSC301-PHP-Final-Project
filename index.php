@@ -19,13 +19,15 @@ include('config.php');
 </head>
 <body>
 		<div id="title-bar">
-            <p>Title bar</p>
-        </div>
-        <div id="nav-bar">
-            <p>Nav bar</p>
+			<img src="images/Logo.png"/>
+			<div id="nav-bar">
+				<?php
+					include('navigation.php');
+					 ?>
+			</div>
         </div>
         <div id="content">
-            <p>content</p>
+			<img src="images/32.png"/>
         </div>
 </body>
 </html>

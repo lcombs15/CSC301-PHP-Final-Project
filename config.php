@@ -13,6 +13,9 @@ function autoloader($class){
 }
 
 spl_autoload_register('autoloader');
+
+//echo password_hash("password", PASSWORD_DEFAULT);
+//echo "<br/>" . password_verify("password1","$2y$10$4Sr90T384SIm0li15s5.A.xr7Yu5Kdx.1cLaQAJCB1HxTsDKcLeJq");
 /*
 // Start the session
 session_start();
