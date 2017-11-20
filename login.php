@@ -5,15 +5,35 @@ include('config.php');
 
 // If form submitted:
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	// Get username and password from the form as variables
+	
+	//Setup form variables
 	$email = $_POST['email'];
 	$password = $_POST['password'];
+	$first = $_POST['first'];
+	$last = $_POST['last'];
+	$address1 = $_POST['address1'];
+	$address2 = $_POST['address2'];
+	$city = $_POST['city'];
+	$state = $_POST['state'];
+	$zip = $_POST['zip'];
+	$action = $_POST['action'];
 	
 	// Query users that have this email
-	$users = getUserByEmail($email,$database);
-	
-	// If $users is not empty
-	if(!empty($users)) {
+	$users = getUserByEmail($email,$database);	
+	if($action == 'signup'){
+		/*
+		if(!empty($users) && count($users) > 0){
+			//$form_msg = "Account with email already exists";
+			return;
+		}
+		*/
+		header('http://google.com');
+		addNewUser($email,password_hash($password,PASSWORD_DEFAULT), $first, $last,$address1,$address2,$city,$state,$zip,$database);
+				
+	}else{ //Normal Login
+		
+		// If $users is not empty
+		if(!empty($users)) {
 		// Set $user equal to the first result of $users
 		$user = $users[0];
 		if(password_verify($password,$user['password_hash'])){			
@@ -24,7 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			header('location: index.php');	
 			}
 		}
-	}
+	}	
+}
 
 ?>
 
@@ -53,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div id="content">
 			<div id="formArea">
 				<h1 id="formTitle">Login</h1>
-				<form id="loginForm" method="POST">
+				<form id="loginForm" method="POST"  onSubmit="return doSubmit();">
 					<input id="formAction" type="text" name="action" hidden/>
 					<table>
 						<tbody id="formTableBody">
@@ -70,15 +91,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						</tr>
 						<tr>
 							<td><label>Email:</label></td>
-							<td colspan=6><input type="email" name="email" placeholder="handle@domain.com" /></td>
+							<td colspan=6><input required type="email" name="email" placeholder="handle@domain.com" /></td>
 						</tr>
 						<tr>
 							<td><label>Password:</label></td>
-							<td colspan=6><input type="password" name="password" placeholder="*****" /></td>
+							<td colspan=6><input required id="password" type="password" name="password" placeholder="*****" /></td>
 						</tr>
 						<tr class="signup">
 							<td><label>Confirm Password:</label></td>
-							<td colspan=6><input type="password" name="passwordConfirm" placeholder="*****" /></td>
+							<td colspan=6><input id="password_verify" type="password" name="passwordConfirm" placeholder="*****" /></td>
 						</tr>
 						<tr class="signup">
 							<td><label>Address 1:</label></td>
@@ -115,6 +136,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	var loginForm = document.querySelector("#loginForm");
 	var formTitle = document.querySelector("#formTitle");
 	var formAction = document.querySelector("#formAction");
+	var password = document.querySelector("#password");
+	var password_verify = document.querySelector("#password_verify");
 	
 	//Start off in login mode
 	formAction.textContent = 'login';	
@@ -122,6 +145,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	//Listen for when someone wants to switch to sign up (Or go back)
 	signupButton.addEventListener("click",signupButtonClick,false);
 
+	//listen for password verify	
+	password_verify.addEventListener("change",password_match,false);
+	password.addEventListener("change",password_match,false);
+	
 	//helper function, returns true if elem has klass (Class is reserved word)
 	function hasClass( elem, klass ) {
      return (" " + elem.classList + " " ).indexOf( " "+klass+" " ) > -1;
@@ -131,31 +158,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	function signupButtonClick(){
 		
 		//Loop through all children
-		for(var i = 0; i < children.length; i++){
-			//current child
-			var child = children[i];
-			
-			if(hasClass(child,'signup')){
-				//Flip between inherit and none
-				child.style.display = child.style.display==='inherit'? 'none' : 'inherit';
+        for(var i = 0; i < children.length; i++){
+            //current child
+            var child = children[i];
+             
+            if(hasClass(child,'signup')){
+                //Flip between inherit and none
+                child.style.display = child.style.display==='inherit'? 'none' : 'inherit';
 			}else{
-				//This helps the boxes that weren't orginally hidden re-size
-				repaint(child);
-			}
-			
-		}
+                //This helps the boxes that weren't orginally hidden re-size
+                repaint(child);
+            }
+             
+        }
 		
 		//Flip values to reflect changed form
 		if(formAction.textContent === 'login'){
 		   formAction.textContent = 'signup';
+		   formAction.value = 'signup';
 		   formTitle.textContent = 'Sign-Up';
 		   signupButton.value = "Returning User";
 		   submitButton.value = "Create Account";
+		   submitButton.disabled = true;
 		}else{
 		   formAction.textContent = 'login';
+		   formAction.value = 'login';
 		   formTitle.textContent = 'Login';
 		   signupButton.value = "Sign-Up!";
 		   submitButton.value = "Login";
+		   submitButton.disabled = false;
 		}
 		
 		//Fix size, ext
@@ -168,6 +199,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		elem.style.display = 'none';
 		elem.style.display = 'inherit';
 	}	
+		
+	function password_match(){
+		if(formAction.textContent === 'login'){
+		   return;
+	    }else{
+		   	if(password.value === password_verify.value){
+			  	submitButton.disabled = false;
+				submitButton.value = "Create Account";
+			}else{
+			  	submitButton.disabled = true;
+				submitButton.value = "Password's do not match!";
+			}
+		}
+		
+	}
 </script>
 </body>
 </html>

@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('displat_errors',1);
 
 // Connecting to the MySQL database
 	$username = "combsl10";
@@ -6,7 +8,7 @@
 	$hostname = "csweb.hh.nku.edu";
 	$schema = "db_fall17_combsl10";
 	$database = new PDO('mysql:host=' . $hostname . ';dbname=' . $schema,$username,$password);
-
+	$database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 //include database functions
 include ('functions.php');
 

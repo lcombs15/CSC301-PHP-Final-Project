@@ -10,7 +10,7 @@ function query($sqlFilePath,$database,$QueryParams){
 	
 	return $results;
 }
-
+	
 function searchBooks($term, $database) {
 	if (is_null($term) || strcmp($term,'') == 0){
 		return array();
@@ -42,6 +42,21 @@ function getUserBySessionID($database){
 	return query('sql/getUserByID.sql',$database,$params)[0];
 }
 
+function addNewUser($email,$password_hash, $first, $last,$address1,$address2,$city,$state,$zip,$database){
+	$params = array(
+		'email' => $email,
+		'password_hash' => $password_hash,
+		'first' => $first,
+		'last' => $last,
+		'address1' => $address1,
+		'address2' => $address2,
+		'city' => $city,
+		'state' => $state,
+		'zip' => $zip,
+		'usertype' => '1'
+		);
+	query('sql/addNewUser.sql',$database,$params);
+}
 
 
 ?>
