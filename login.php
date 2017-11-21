@@ -64,12 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 		<div id="title-bar">
-			<img src="images/Logo.png"/>
-			<div id="nav-bar">
 				<?php
 					include('navigation.php');
-					 ?>
-			</div>
+				?>	
         </div>
         <div id="content">
 			<div id="formArea">

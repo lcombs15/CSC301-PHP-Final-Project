@@ -2,6 +2,8 @@
 
 // Include a configuration file with the database connection
 include('config.php');
+
+$items = getAllItems($database);
 ?>
 
 <!doctype html>
@@ -19,16 +21,18 @@ include('config.php');
 </head>
 <body>
 		<div id="title-bar">
-			<img src="images/Logo.png"/>
-			<div id="nav-bar">
 				<?php
 					include('navigation.php');
-					 ?>
-			</div>
+				?>		
         </div>
         <div id="content">
-			<img src="images/32.png"/>
-			<p>Hello, <?php echo $user['first'];?>!</p>
+			<?php foreach($items as $item) : ?>
+				<div class="listing">
+					<img src="images/32.png"/>
+					<h2><?php echo $item['desc']; ?></h2>
+					<p>$<?php echo $item['price']; ?></p>
+				</div>
+			<?php endforeach; ?>
         </div>
 </body>
 </html>

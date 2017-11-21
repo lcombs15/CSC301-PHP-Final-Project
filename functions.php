@@ -10,6 +10,12 @@ function query($sqlFilePath,$database,$QueryParams){
 	
 	return $results;
 }
+
+function execute($sqlFilePath,$database,$QueryParams){
+	$sql = file_get_contents($sqlFilePath);
+		$statement = $database->prepare($sql);
+		$statement->execute($QueryParams);
+}
 	
 function searchBooks($term, $database) {
 	if (is_null($term) || strcmp($term,'') == 0){
@@ -55,7 +61,11 @@ function addNewUser($email,$password_hash, $first, $last,$address1,$address2,$ci
 		'zip' => $zip,
 		'usertype' => '1'
 		);
-	query('sql/addNewUser.sql',$database,$params);
+	execute('sql/addNewUser.sql',$database,$params);
+}
+
+function getAllItems($database){
+	return query('sql/getAllItems.sql', $database, null);
 }
 
 

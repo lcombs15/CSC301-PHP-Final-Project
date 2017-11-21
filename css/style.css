@@ -48,8 +48,9 @@ body{
 }
 
 #content{
-    height: 80%;
+    min-height: 80%;
     width: 100%;
+	text-align: center;
 }
 
 #nav-bar li{
@@ -122,4 +123,15 @@ input, label{
 
 .signUp{
 	display: none;
+}
+
+#welcomeMessage{
+	float: right;
+    padding: 10pt;
+    color: white;
+}
+
+.listing{
+	display: inline-block;
+	padding: 15pt;
 }
