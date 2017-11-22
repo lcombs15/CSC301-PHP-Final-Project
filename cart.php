@@ -22,6 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['form_num'] == 2) {
 	foreach($cart as $itemnmbr => $quantity){
 		addItemToOrder($order_number,$itemnmbr,$quantity,$database);
 	}
+	
+	$_SESSION['order'] = $order_number;
+	header("Location: confirmation.php");
 }
 
 
@@ -107,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['form_num'] == 2) {
 		</form>
 			<h2 style="text-align: right;">Subtotal: $<?php echo $subTotal;?></h2>
 			<h2 style="text-align: right;">Shipping &amp; Handling: $<?php echo $shipping;?></h2>
-			<h1 style="text-align: right;">Grand Total: $<?php echo $grandTotal;?></h3>
+			<h1 style="text-align: right;">Grand Total: $<?php echo $grandTotal;?></h1>
 		<form method="post">
 			<input type="hidden" name="form_num" value="2"/>
 			<input type="hidden" name="subtotal" value="<?php echo $subTotal;?>"/>
