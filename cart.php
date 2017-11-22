@@ -92,9 +92,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['form_num'] == 2) {
 					</td>
 				</tr>
 			<?php endforeach;
-				$shipping = .10 * $grandTotal;
-				$subTotal = $grandTotal;
-				$grandTotal += $shipping;
+				$shipping = .10 * $grandTotal;				
+				$subTotal = number_format($grandTotal,2);
+				$grandTotal = number_format($grandTotal + $shipping,2);
+				$shipping = number_format($shipping,2)
 				?>
 				<tr>
 					<td>
@@ -106,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['form_num'] == 2) {
 		</form>
 			<h2 style="text-align: right;">Subtotal: $<?php echo $subTotal;?></h2>
 			<h2 style="text-align: right;">Shipping &amp; Handling: $<?php echo $shipping;?></h2>
-			<h3 style="text-align: right;">Grand Total: $<?php echo $grandTotal;?></h3>
+			<h1 style="text-align: right;">Grand Total: $<?php echo $grandTotal;?></h3>
 		<form method="post">
 			<input type="hidden" name="form_num" value="2"/>
 			<input type="hidden" name="subtotal" value="<?php echo $subTotal;?>"/>

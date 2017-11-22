@@ -1,1 +1,1 @@
-SELECT * FROM project_inventory
+SELECT * FROM project_inventory where `desc` like :searchTerm OR itemnmbr like :searchTerm

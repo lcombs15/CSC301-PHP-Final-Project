@@ -3,7 +3,18 @@
 // Include a configuration file with the database connection
 include('config.php');
 
-$items = getAllItems($database);
+
+
+// If search submitted:
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	$term = $_POST['search'];
+	$items = getAllItems($database, $term);	
+}else{
+	$items = getAllItems($database,NULL);
+	$term = "";
+}
+
+
 ?>
 
 <!doctype html>
@@ -21,9 +32,13 @@ $items = getAllItems($database);
 </head>
 <body>
 		<div id="title-bar">
-				<?php
-					include('navigation.php');
-				?>		
+			<?php
+				include('navigation.php');
+			?>
+			<br/>
+			<form method="post">
+				<input type="text" name="search" placeholder="Search....." value="<?php echo $term; ?>">
+			</form>
         </div>
         <div id="content">
 			<?php foreach($items as $item) : ?>

@@ -66,8 +66,12 @@ function addNewUser($email,$password_hash, $first, $last,$address1,$address2,$ci
 	execute('sql/addNewUser.sql',$database,$params);
 }
 
-function getAllItems($database){
-	return query('sql/getAllItems.sql', $database, null);
+function getAllItems($database, $searchTerm){
+	$searchTerm = str_replace(" ", "%", $searchTerm);
+	$params = array(
+		'searchTerm' => '%' . $searchTerm . '%'
+	);
+	return query('sql/getAllItems.sql', $database, $params);
 }
 
 function getItemByItemnmbr($itemnmbr,$database){
