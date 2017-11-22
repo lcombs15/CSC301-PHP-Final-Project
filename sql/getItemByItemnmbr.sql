@@ -1,0 +1,1 @@
+SELECT * FROM project_inventory where itemnmbr=:itemnmbr

@@ -1,7 +1,6 @@
 <?php
 error_reporting(E_ALL);
 ini_set('displat_errors',1);
-
 // Connecting to the MySQL database
 	$username = "combsl10";
 	$password = "sPIe3lar";
@@ -29,4 +28,9 @@ if (!isset($_SESSION["userid"]) && $current_url != 'login.php') { //re-direct us
     header("Location: login.php");
 }else if(isset($_SESSION["userid"])){
 	$user = getUserBySessionID($database);
+}
+
+//Initalize Shoppping Cart
+if(!isset($_SESSION["ShoppingCart"])){
+	$_SESSION["ShoppingCart"] = new ShoppingCart();
 }

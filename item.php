@@ -3,7 +3,15 @@
 // Include a configuration file with the database connection
 include('config.php');
 
-$items = getAllItems($database);
+$item = getItemByItemnmbr($_GET['itemnmbr'],$database);
+
+// If form submitted:
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	$cart = $_SESSION["ShoppingCart"];
+	$cart->addItemQuantity($item['itemnmbr'],$_POST['quantity']);
+	header('Location: cart.php');
+}
+
 ?>
 
 <!doctype html>
@@ -11,7 +19,7 @@ $items = getAllItems($database);
 <head>
 	<meta charset="utf-8">
 	
-  	<title>Home</title>
+  	<title><?php echo $item['desc'];?></title>
 
 	<link rel="stylesheet" href="css/style.css">
 
@@ -26,13 +34,16 @@ $items = getAllItems($database);
 				?>		
         </div>
         <div id="content">
-			<?php foreach($items as $item) : ?>
 				<div class="listing">
-					<a href="item.php?itemnmbr=<?php echo $item['itemnmbr']; ?>"><img src="images/32.png"/></a>
+					<img src="images/32.png"/>
 					<h2><?php echo $item['desc']; ?></h2>
 					<p>$<?php echo $item['price']; ?></p>
 				</div>
-			<?php endforeach; ?>
+				<form method="POST">
+					<input type="number" name="quantity"
+					min="1" max="99" step=1 value=1>
+					<input type="submit" value="Add to Cart" />
+				</form>
         </div>
 </body>
 </html>

@@ -15,6 +15,8 @@ function execute($sqlFilePath,$database,$QueryParams){
 	$sql = file_get_contents($sqlFilePath);
 		$statement = $database->prepare($sql);
 		$statement->execute($QueryParams);
+	
+	return $database->lastInsertId();
 }
 	
 function searchBooks($term, $database) {
@@ -68,5 +70,30 @@ function getAllItems($database){
 	return query('sql/getAllItems.sql', $database, null);
 }
 
+function getItemByItemnmbr($itemnmbr,$database){
+	$params = array(
+		'itemnmbr' => $itemnmbr
+	);
+	return query('sql/getItemByItemnmbr.sql',$database,$params)[0];
+}
+
+function createOrder($customerID,$shipping,$subtotal,$total, $database){
+	$params = array(
+		'customer_id' => $customerID,
+		'shipping' => $shipping,
+		'subtotal' => $subtotal,
+		'total' => $total
+	);
+	return execute('sql/createOrder.sql',$database,$params);
+}
+
+function addItemToOrder($order_number,$itemnmbr,$quantity,$database){
+	$params = array(
+		'order_number' => $order_number,
+		'itemnmbr' => $itemnmbr,
+		'qty' => $quantity
+	);
+	execute('sql/addItemToOrder.sql',$database,$params);
+}
 
 ?>
