@@ -100,4 +100,42 @@ function addItemToOrder($order_number,$itemnmbr,$quantity,$database){
 	execute('sql/addItemToOrder.sql',$database,$params);
 }
 
+function getInvoiceHeader($order_number,$customerID, $database){
+	$params = array(
+		'order_number' => $order_number,
+		'customer_id' => $customerID
+	);
+	return query('sql/getInvoiceHeader.sql',$database,$params)[0];
+}
+
+function getInvoiceDetail($order_number,$customerID,$database){
+	$params = array(
+		'order_number' => $order_number,
+		'customer_id' => $customerID
+	);
+	return query('sql/getInvoiceDetail.sql',$database,$params);
+}
+
+
+function getOrdersByCustomer($customerID, $database){
+	$params = array(
+		'customer_id' => $customerID
+	);
+	return query('sql/getOrdersByCustomer.sql', $database,$params);
+}
+
+function updateUser($userid, $email, $first, $last,$address1,$address2,$city,$state,$zip,$database){
+	$params = array(
+		'email' => $email,
+		'first' => $first,
+		'last' => $last,
+		'address1' => $address1,
+		'address2' => $address2,
+		'city' => $city,
+		'state' => $state,
+		'zip' => $zip,
+		'userid' => $userid
+		);
+	execute('sql/updateUser.sql',$database,$params);
+}
 ?>

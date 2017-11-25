@@ -35,7 +35,7 @@ $_SESSION['ShoppingCart'] = new ShoppingCart();
         <div id="content">
 			<h1>Thank you, <?php echo $user['first'];?>!</h1>
 			<h2>Order #<?php echo $order_num;?> has been placed.</h2>
-			<a href="invoice.php?order=<?php echo $order_num;?>"><p>View Invoice</p></a>
+			<a target="_blank" href="invoice.php?order=<?php echo $order_num;?>"><p>View Invoice</p></a>
         </div>
 </body>
 </html>

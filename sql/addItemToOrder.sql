@@ -11,5 +11,5 @@ itemnmbr,
 project_inventory.`desc`,
 :qty,
 price,
-:qty * price
+round(:qty * price,2)
 from project_inventory where itemnmbr=:itemnmbr

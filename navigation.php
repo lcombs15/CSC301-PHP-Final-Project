@@ -10,10 +10,10 @@
 				echo "Login / Signup";
 			}
 			?></a></li>
+		<li><a href="cart.php">Shopping Cart</a></li>
 		<li <?php if(!isset($_SESSION['userid'])){
 				echo "hidden";
 			}?>><a href='logout.php'>Logout</a></li>
 		
-		<li><a href="cart.php">Shopping Cart</a></li>
 	</ul>
 </div>

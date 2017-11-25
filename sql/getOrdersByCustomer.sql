@@ -1,0 +1,1 @@
+SELECT order_number, order_date FROM PROJECT_ORDERS where customer_id=:customer_id order by order_date DESC, order_number DESC

@@ -27,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			return;
 		}
 		*/
-		header('http://google.com');
 		addNewUser($email,password_hash($password,PASSWORD_DEFAULT), $first, $last,$address1,$address2,$city,$state,$zip,$database);
 				
 	}else{ //Normal Login

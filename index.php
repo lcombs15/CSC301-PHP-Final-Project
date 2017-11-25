@@ -36,8 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				include('navigation.php');
 			?>
 			<br/>
-			<form method="post">
-				<input type="text" name="search" placeholder="Search....." value="<?php echo $term; ?>">
+			<form method="post" id="searchBar">
+				<table>
+					<tr>
+						<td><input type="text" name="search" placeholder="Search....." value="<?php echo $term; ?>"></td>
+						<td><input type="submit" id="searchBarSubmit" value="Search"></td>
+					</tr>
+				</table>
 			</form>
         </div>
         <div id="content">

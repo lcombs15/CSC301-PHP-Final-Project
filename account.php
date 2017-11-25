@@ -2,7 +2,11 @@
 
 // Include a configuration file with the database connection
 include('config.php');
+
+$orders = getOrdersByCustomer($user['userid'], $database);
+
 ?>
+
 
 <!doctype html>
 <html lang="en">
@@ -19,15 +23,34 @@ include('config.php');
 </head>
 <body>
 		<div id="title-bar">
-			<img src="images/Logo.png"/>
 			<div id="nav-bar">
 				<?php
 					include('navigation.php');
 					 ?>
 			</div>
         </div>
-        <div id="content">
-			<img src="images/32.png"/>
+        <div id="content" class="accountInfo">
+			<h1>My Account</h1>
+			<p>
+				<?php
+					$address2 = $user['address2']==null? "" : $user['address2'] . "<br/>";
+
+					echo $user['first'] . " " . $user['last'] . "<br/>";
+					echo $user['address1'] . "<br/>";
+					echo $address2;
+					echo $user['city'] . ", " . $user['state'] . " " . $user['zip'];
+				?>
+				<br/>
+				<a href="edit_account.php">Edit your information</a>
+			</p>
+			<br/>
+			<br/>
+			<h1>Order History</h1>
+				<?php foreach($orders as $order): ?>
+				<div class="listing">
+					<a target="_blank" href="invoice.php?order=<?php echo $order['order_number'];?>"> &#35;<?php echo $order['order_number'] . " | " . $order['order_date'];?></a>
+				</div>
+				<?php endforeach; ?>
         </div>
 </body>
 </html>

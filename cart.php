@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['form_num'] == 2) {
 			<h1>Shopping Cart</h1>
 		<form method="POST">
 			<input type="hidden" name="form_num" value="1"/>
-			<table>
+			<table id="cartItems">
 				<tr>
 					<th>
 						Item
@@ -78,8 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['form_num'] == 2) {
 						$item = getItemByItemnmbr($itemnmbr,$database);					
 					?>
 					<td>
-						<?php echo $item['desc']; ?><br />
-						<a target="_blank" href="item.php?itemnmbr=<?php echo $item['itemnmbr'] ?>">View Item</a>
+						
+						<a target="_blank" title="View Item" href="item.php?itemnmbr=<?php echo $item['itemnmbr'] ?>"><?php echo $item['desc']; ?></a>
 					</td>
 					<td>
 						<?php echo "$" . $item['price']; ?>
@@ -96,9 +96,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['form_num'] == 2) {
 				</tr>
 			<?php endforeach;
 				$shipping = .10 * $grandTotal;				
-				$subTotal = number_format($grandTotal,2);
-				$grandTotal = number_format($grandTotal + $shipping,2);
-				$shipping = number_format($shipping,2)
+				$subTotal = round($grandTotal,2);
+				$grandTotal = round($grandTotal + $shipping,2);
+				$shipping = round($shipping,2)
 				?>
 				<tr>
 					<td>
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['form_num'] == 2) {
 					</td>
 				</tr>
 			</table>
-			<input type="submit" value="Update Quantites">
+			<input class="cartSubmit" type="submit" value="Update Quantites">
 		</form>
 			<h2 style="text-align: right;">Subtotal: $<?php echo $subTotal;?></h2>
 			<h2 style="text-align: right;">Shipping &amp; Handling: $<?php echo $shipping;?></h2>
@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['form_num'] == 2) {
 			<input type="hidden" name="subtotal" value="<?php echo $subTotal;?>"/>
 			<input type="hidden" name="shipping" value="<?php echo $shipping;?>"/>
 			<input type="hidden" name="total" value="<?php echo $grandTotal;?>"/>
-			<input type="submit" value="Place Order"/>
+			<input style="float: right;" class="cartSubmit" type="submit" value="Place Order"/>
 		</form>
         </div>
 </body>
