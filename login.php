@@ -6,30 +6,28 @@ include('config.php');
 // If form submitted:
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	
-	//Setup form variables
+	//Setup login variables
 	$email = $_POST['email'];
 	$password = $_POST['password'];
-	$first = $_POST['first'];
-	$last = $_POST['last'];
-	$address1 = $_POST['address1'];
-	$address2 = $_POST['address2'];
-	$city = $_POST['city'];
-	$state = $_POST['state'];
-	$zip = $_POST['zip'];
 	$action = $_POST['action'];
 	
-	// Query users that have this email
-	$users = getUserByEmail($email,$database);	
 	if($action == 'signup'){
-		/*
-		if(!empty($users) && count($users) > 0){
-			//$form_msg = "Account with email already exists";
-			return;
-		}
-		*/
+		//Setup signup variables
+		$first = $_POST['first'];
+		$last = $_POST['last'];
+		$address1 = $_POST['address1'];
+		$address2 = $_POST['address2'];
+		$city = $_POST['city'];
+		$state = $_POST['state'];
+		$zip = $_POST['zip'];
+		$action = $_POST['action'];
+
+		//Add user to database
 		addNewUser($email,password_hash($password,PASSWORD_DEFAULT), $first, $last,$address1,$address2,$city,$state,$zip,$database);
 				
 	}else{ //Normal Login
+		// Query users that have this email
+		$users = getUserByEmail($email,$database);	
 		
 		// If $users is not empty
 		if(!empty($users)) {
@@ -63,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 		<div id="title-bar">
+				<!-- Include Nav-->
 				<?php
 					include('navigation.php');
 				?>	
@@ -70,19 +69,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div id="content">
 			<div id="formArea">
 				<h1 id="formTitle">Login</h1>
-				<form id="loginForm" method="POST"  onSubmit="return doSubmit();">
-					<input id="formAction" type="text" name="action" hidden/>
+				<!-- Form one, for login only-->
+				<form id="loginForm" method="POST">
+					<input type="text" name="action"  value="login" hidden/>
 					<table>
-						<tbody id="formTableBody">
-						<tr class="signup">
+						<tbody class="formTableBody">
+							<tr>
+								<td><label>Email:</label></td>
+								<td colspan=6><input required type="email" name="email" placeholder="handle@domain.com" /></td>
+							</tr>
+							<tr>
+								<td><label>Password:</label></td>
+								<td colspan=6><input required type="password" name="password" placeholder="*****" /></td>
+							</tr>
+							<tr>
+								<td colspan=4>
+									<input type="submit" value="Login" />
+								</td>
+								<td colspan=4>
+									<input id="showSignUp" type="button" value="Sign-up!" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+				<!-- Form 2, for sign-up only-->
+				<form id="signupForm" method="POST" hidden>
+					<input type="text" name="action" value="signup" hidden/>
+					<table>
+						<tbody class="formTableBody">
+						<tr>
 							<td>
 								<label>Name:</label>
 							</td>
 							<td colspan="3">
-								<input type="text" name="first" placeholder="John" />
+								<input required type="text" name="first" placeholder="John" />
 							</td>
 							<td colspan="3">
-								<input type="text" name="last" placeholder="Doe" />
+								<input required type="text" name="last" placeholder="Doe" />
 							</td>
 						</tr>
 						<tr>
@@ -93,30 +117,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 							<td><label>Password:</label></td>
 							<td colspan=6><input required id="password" type="password" name="password" placeholder="*****" /></td>
 						</tr>
-						<tr class="signup">
+						<tr>
 							<td><label>Confirm Password:</label></td>
-							<td colspan=6><input id="password_verify" type="password" name="passwordConfirm" placeholder="*****" /></td>
+							<td colspan=6><input required id="password_verify" type="password" name="passwordConfirm" placeholder="*****" /></td>
 						</tr>
-						<tr class="signup">
+						<tr>
 							<td><label>Address 1:</label></td>
-							<td colspan=6><input type="text" name="address1" placeholder="100 West Main Street" /></td>
+							<td colspan=6><input required type="text" name="address1" placeholder="100 West Main Street" /></td>
 						</tr>
-						<tr class="signup">
+						<tr>
 							<td><label>Address 2:</label></td>
 							<td colspan=6><input type="text" name="address2" placeholder="Apartment #4E" /></td>
 						</tr>
-						<tr class="signup">
+						<tr>
 							<td><label>City, State, Zip: </label></td>
-							<td colspan=4><input type="text" name="city" placeholder="Louisville" /></td>
-							<td colspan=1><input type="text" name="state" placeholder="KY" pattern="[A-Za-z]{2}" size=2/></td>
-							<td colspan=1><input type="text" name="zip" placeholder="40272" size=10 /></td>
+							<td colspan=4><input required type="text" name="city" placeholder="Louisville" /></td>
+							<td colspan=1><input required type="text" name="state" placeholder="KY" pattern="[A-Za-z]{2}" size="2" /></td>
+							<td colspan=1><input required type="text" name="zip" placeholder="40272" size=10 /></td>
 						</tr>
 						<tr>
 							<td colspan=4>
-								<input id="submitButton" type="submit" value="Login" />
+								<input id="signupSubmitButton" type="submit" value="Create Account" />
 							</td>
 							<td colspan=4>
-								<input id="signupButton" type="button" value="Sign-Up!" />
+								<input id="showLogin" type="button" value="Exisiting User" />
 							</td>
 						</tr>
 						</tbody>
@@ -126,89 +150,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 	<script type="text/javascript">
 	//Define all element variables
-	var children = document.querySelector("#formTableBody").children;
-	var signupButton = document.querySelector("#signupButton");
-	var submitButton = document.querySelector("#submitButton");
+	var showLoginButton = document.querySelector("#showLogin");
+	var showSignUpButton = document.querySelector("#showSignUp");
+	var signupForm = document.querySelector("#signupForm");
 	var loginForm = document.querySelector("#loginForm");
-	var formTitle = document.querySelector("#formTitle");
-	var formAction = document.querySelector("#formAction");
+	var signupSubmitButton = document.querySelector("#signupSubmitButton");
 	var password = document.querySelector("#password");
 	var password_verify = document.querySelector("#password_verify");
+	var formTitle = document.querySelector("#formTitle");
 	
-	//Start off in login mode
-	formAction.textContent = 'login';	
 	
-	//Listen for when someone wants to switch to sign up (Or go back)
-	signupButton.addEventListener("click",signupButtonClick,false);
-
-	//listen for password verify	
+		
+	//Listen for when someone wants to switch forms
+	showSignUpButton.addEventListener("click",showSignUp,false);	
+	showLoginButton.addEventListener("click",showLogin,false);	
 	password_verify.addEventListener("change",password_match,false);
 	password.addEventListener("change",password_match,false);
-	
-	//helper function, returns true if elem has klass (Class is reserved word)
-	function hasClass( elem, klass ) {
-     return (" " + elem.classList + " " ).indexOf( " "+klass+" " ) > -1;
+
+	function showSignUp(){
+		loginForm.hidden = true;
+		signupForm.hidden = false;
+		formTitle.textContent = "Sign-up";
 	}
+		
+	function showLogin(){		
+		loginForm.hidden = false;
+		signupForm.hidden = true;
+		formTitle.textContent = "Login";
+	}		
 	
-	//Called everytime button it clicked
-	function signupButtonClick(){
-		
-		//Loop through all children
-        for(var i = 0; i < children.length; i++){
-            //current child
-            var child = children[i];
-             
-            if(hasClass(child,'signup')){
-                //Flip between inherit and none
-                child.style.display = child.style.display==='inherit'? 'none' : 'inherit';
-			}else{
-                //This helps the boxes that weren't orginally hidden re-size
-                repaint(child);
-            }
-             
-        }
-		
-		//Flip values to reflect changed form
-		if(formAction.textContent === 'login'){
-		   formAction.textContent = 'signup';
-		   formAction.value = 'signup';
-		   formTitle.textContent = 'Sign-Up';
-		   signupButton.value = "Returning User";
-		   submitButton.value = "Create Account";
-		   submitButton.disabled = true;
-		}else{
-		   formAction.textContent = 'login';
-		   formAction.value = 'login';
-		   formTitle.textContent = 'Login';
-		   signupButton.value = "Sign-Up!";
-		   submitButton.value = "Login";
-		   submitButton.disabled = false;
-		}
-		
-		//Fix size, ext
-		repaint(signupButton);
-		repaint(submitButton);
-	}
-	
-	//Helper function, makes browser re-draw to fix CSS re-size issues
-	function repaint(elem){
-		elem.style.display = 'none';
-		elem.style.display = 'inherit';
-	}	
-		
+	//Make sure user has passwords that match
 	function password_match(){
-		if(formAction.textContent === 'login'){
-		   return;
-	    }else{
-		   	if(password.value === password_verify.value){
-			  	submitButton.disabled = false;
-				submitButton.value = "Create Account";
-			}else{
-			  	submitButton.disabled = true;
-				submitButton.value = "Password's do not match!";
-			}
-		}
-		
+		if(password.value === password_verify.value){
+			signupSubmitButton.disabled = false;
+			signupSubmitButton.value = "Create Account";
+		}else{
+			signupSubmitButton.disabled = true;
+			signupSubmitButton.value = "Passwords do not match!";
+		}	
 	}
 </script>
 </body>

@@ -35,13 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div id="content">
 				<div class="listing">
-					<img src="images/32.png"/>
+					<img src="images/<?php echo $item['image_path']?>.png"/>
 					<h2><?php echo $item['desc']; ?></h2>
 					<p>$<?php echo $item['price']; ?></p>
 				</div>
-				<form method="POST">
+				<form method="POST" id="listingForm">
 					<input type="number" name="quantity"
 					min="1" max="99" step=1 value=1>
+					<br/>
 					<input type="submit" value="Add to Cart" />
 				</form>
         </div>

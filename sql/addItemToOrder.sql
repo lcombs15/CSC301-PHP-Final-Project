@@ -13,3 +13,4 @@ project_inventory.`desc`,
 price,
 round(:qty * price,2)
 from project_inventory where itemnmbr=:itemnmbr
+-- Pull data from inventory table to make life easier in PHP

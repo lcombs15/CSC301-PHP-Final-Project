@@ -3,6 +3,7 @@
 // Include a configuration file with the database connection
 include('config.php');
 
+//Pull customer order history
 $orders = getOrdersByCustomer($user['userid'], $database);
 
 ?>
@@ -24,6 +25,7 @@ $orders = getOrdersByCustomer($user['userid'], $database);
 <body>
 		<div id="title-bar">
 			<div id="nav-bar">
+				<!-- Include Nav-->
 				<?php
 					include('navigation.php');
 					 ?>
@@ -32,6 +34,7 @@ $orders = getOrdersByCustomer($user['userid'], $database);
         <div id="content" class="accountInfo">
 			<h1>My Account</h1>
 			<p>
+				<!-- Print out user info-->				
 				<?php
 					$address2 = $user['address2']==null? "" : $user['address2'] . "<br/>";
 
@@ -45,6 +48,7 @@ $orders = getOrdersByCustomer($user['userid'], $database);
 			</p>
 			<br/>
 			<br/>
+				<!-- Print order history-->
 			<h1>Order History</h1>
 				<?php foreach($orders as $order): ?>
 				<div class="listing">

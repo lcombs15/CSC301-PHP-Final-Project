@@ -8,7 +8,9 @@ INSERT INTO `db_fall17_combsl10`.`project_orders`
 `zip`,
 `total`,
 `subtotal`,
-`shipping`)
+`shipping`,
+first,
+last)
 select
 CURRENT_DATE(),
 userid,
@@ -19,5 +21,8 @@ state,
 zip,
 :total,
 :subtotal,
-:shipping
-from project_users where userid=:customer_id;
+:shipping,
+first,
+last
+from project_users where userid=:customer_id
+-- Pull data over from users table to lessen work in PHP

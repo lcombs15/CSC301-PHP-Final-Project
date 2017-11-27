@@ -3,14 +3,18 @@
 // Include a configuration file with the database connection
 include('config.php');
 
+//If we don't have an order, redirect home
 if(!isset($_SESSION['order'])){
 	header("Location: index.php");
+	//Stop running code on this page
 	die();
 }
 	
 	
 $order_num = $_SESSION['order'];
+//Clear items out of shopping cart since user bought them
 $_SESSION['ShoppingCart'] = new ShoppingCart();
+
 ?>
 
 <!doctype html>

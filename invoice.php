@@ -3,20 +3,25 @@
 // Include a configuration file with the database connection
 include('config.php');
 
+//Redirect user
 function redirect(){
 	header("Location: index.php");
 	die();
 }
 
+//Redirect user if we don't have an order #
 if(!isset($_GET['order'])){
 	redirect();
 }
 
+//Pull invoice #
 $invoice_number = $_GET['order'];
 
+//Pull all invoice info
 $invoice_header = getInvoiceHeader($invoice_number,$user['userid'], $database);
 $invoice_detail = getInvoiceDetail($invoice_number,$user['userid'], $database);
 
+//If invoice # is invalid or invoice # doesn't belong to customer redirect
 if($invoice_header == null){
 	redirect();
 }
@@ -40,7 +45,8 @@ if($invoice_header == null){
 </head>
 <body>
 		<table>
-			<tr>
+			<tr>				
+				<!-- Print out header info-->
 				<td colspan=10>
 					<a href="index.php"><img src="images/Logo.png"/></a>
 					<p>Screns R-us LLC | Highland Heights, KY</p>
@@ -64,7 +70,7 @@ if($invoice_header == null){
 							<?php
 								$address2 = $invoice_header['address2']==null? "" : $invoice_header['address2'] . "<br/>";
 
-								echo $user['first'] . " " . $user['last'] . "<br/>";
+								echo $invoice_header['first'] . " " . $invoice_header['last'] . "<br/>";
 								echo $invoice_header['address1'] . "<br/>";
 								echo $address2;
 								echo $invoice_header['city'] . ", " . $invoice_header['state'] . " " . $invoice_header['zip'];
@@ -80,6 +86,8 @@ if($invoice_header == null){
 				<th>Price/each</th>
 				<th>Total</th>
 			</tr>
+			
+				<!-- Print out line items-->
 			<?php foreach($invoice_detail as $item): ?>
 			<tr>
 				<td><a target="_blank" href="item.php?itemnmbr=<?php echo $item['itemnmbr'];?>"><?php echo $item['itemnmbr'];?></a></td>
@@ -93,6 +101,7 @@ if($invoice_header == null){
 				<td colspan="10">
 				</td>
 			</tr>
+			<!-- Print out document totals-->			
 			<tr class="total">
 				<td colspan="4">
 					Shipping &amp; Handling:
@@ -114,7 +123,7 @@ if($invoice_header == null){
 					Grand Total:
 				</td>
 				<td>
-					$<?php echo $invoice_header["total"];?>
+					$<?php echo number_format($invoice_header["total"],2);?>
 				</td>
 			</tr>
 		</table>

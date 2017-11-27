@@ -15,7 +15,6 @@ include ('functions.php');
 function autoloader($class){
 	include 'class.' . $class . '.php';
 }
-
 spl_autoload_register('autoloader');
 
 // Start the session
@@ -30,7 +29,7 @@ if (!isset($_SESSION["userid"]) && $current_url != 'login.php') { //re-direct us
 	$user = getUserBySessionID($database);
 }
 
-//Initalize Shoppping Cart
+//Initalize Shopping Cart
 if(!isset($_SESSION["ShoppingCart"])){
 	$_SESSION["ShoppingCart"] = new ShoppingCart();
 }
