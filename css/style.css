@@ -165,3 +165,7 @@ input, label{
 .accountInfo{
 	font-size: 14pt;	
 }
+
+#title-bar a:hover{
+	font-style: italic;
+}
