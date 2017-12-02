@@ -1,6 +1,5 @@
 <?php
-error_reporting(E_ALL);
-ini_set('displat_errors',1);
+error_reporting(0);
 // Connecting to the MySQL database
 	$username = "combsl10";
 	$password = "sPIe3lar";

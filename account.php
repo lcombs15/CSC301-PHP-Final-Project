@@ -41,7 +41,8 @@ $orders = getOrdersByCustomer($user['userid'], $database);
 					echo $user['first'] . " " . $user['last'] . "<br/>";
 					echo $user['address1'] . "<br/>";
 					echo $address2;
-					echo $user['city'] . ", " . $user['state'] . " " . $user['zip'];
+					echo $user['city'] . ", " . $user['state'] . " " . $user['zip'] . "<br/>";
+					echo $user['email'];
 				?>
 				<br/>
 				<a href="edit_account.php">Edit your information</a>
